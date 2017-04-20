@@ -1,15 +1,25 @@
+
+'use strict'
 // Import Admin SDK
 var firebase = require("firebase");
 
 var config = {
-
+/*
 	apiKey: "AIzaSyAIGwC2HCx9cnTHWW_EJxxy9L1qvM3Ub34",
     authDomain: "contact-manager-application.firebaseapp.com",
     databaseURL: "https://contact-manager-application.firebaseio.com",
     projectId: "contact-manager-application",
     storageBucket: "contact-manager-application.appspot.com",
     messagingSenderId: "1056217513705"
-}
+    */
+    apiKey: "AIzaSyDjkHwlxEhXgZDEOWsAJ3-cAYiuNnQbcU4",
+    authDomain: "project-66bb8.firebaseapp.com",
+    databaseURL: "https://project-66bb8.firebaseio.com",
+    projectId: "project-66bb8",
+    storageBucket: "project-66bb8.appspot.com",
+    messagingSenderId: "111694782091"
+
+};
      
 firebase.initializeApp(config);
 
@@ -24,35 +34,40 @@ var ref = firebaseRef.ref();
 
 function addContact(firstName, lastName, mobileNumber)  {
 
-   if (typeof(mobileNumber) === 'number') {
+  var contact;
+
+   //if (typeof (mobileNumber) === 'number') {
   
-      var number = (''+mobileNumber).split('');
+      //var number = (''+mobileNumber).split('');
 
       //console.log(number);
   
-      if (number.length === 13) { // check for the length of phone number
+     // if (number.length === 13) { // check for the length of phone number
 
-      	var contact = ref.push({
+      	 contact = ref.push({
 
-		first:firstName,
-		last:lastName,
-		mobileNumber:'+'+mobileNumber
-	});
-    
+		      first:firstName,
+		      last:lastName,
+		      mobileNumber:'+'+mobileNumber
+	})
+         
+  return true;
+     
        // console.log(mobileNumber);
-  }
-    else if (number.length !== 13) {
+ // }
+   // else if (number.length !== 13) {
     
-     console.log('Invalid mobile number: Please input a valid mobile phone number');
-  }
+    // console.log('Invalid mobile number: Please input a valid mobile phone number');
+  //}
 
+
+ //}
 
  }
 
- }
 //addContact('James', 'khan', 2348076868926);
 
-var newContact = new addContact();
+//var newContact = new addContact();
 
 
 
@@ -99,7 +114,7 @@ function getContacts(keys) {
 
 	};
 
-	for (i = 0; i < keys.length; i++) {
+	for (var i = 0; i < keys.length; i++) {
 
 		var k = keys[i];
 
@@ -132,48 +147,36 @@ function searchContact(contacts, searchTerm) {
 
     var newArray =[];
 
-    searchTerm ='Andela';
-
-    for (i = 0; i < contacts.length; i++) {
-
+    searchTerm =' ';
+    for (var i = 0; i < contacts.length; i++) {
     	if (contacts[i].last === searchTerm) {
-
     		newArray.push(contacts[i]);
-
-
     	}
     	 else if (contacts[0].last.indexOf(searchTerm) === -1) {
-
-    	 	console.log('No search results');
+    	 	//console.log('No search results');
     	 }
     }
 
     var count = 1;
-
-
-    console.log(newArray);
+   //console.log(newArray);
 
     var newStr = 'which ';
-
     var  ifTrue = true;
-
-
-
 
 
     if (newArray.length > 1) { 
 
-       for (j = 0; j < newArray.length; j++) {
+       for (var j = 0; j < newArray.length; j++) {
 
         var key = newArray[j];
 
-    		last = key.last;
+    		 var last = key.last;
 
-    	   first = key.first;
+    	   var first = key.first;
 
     	   if (ifTrue === true) {
 
-    	   	    newStr += last+ '? ' +(count++)+ first;
+    	   	    newStr += last+ '? [' +(count++)+ ']'+ first+ '\t';
     	   	    
     	       ifTrue = false;
 
@@ -181,7 +184,7 @@ function searchContact(contacts, searchTerm) {
     	   
     	   else {
 
-    	   	 newStr += +(count++)+ first;
+    	   	 newStr += '['+(count++)+']'+ first;
 
     	   }
     	   
@@ -193,7 +196,7 @@ function searchContact(contacts, searchTerm) {
     	  // console.log('which '+last+ '? [' +(count++)+ '] '+first);
     	}
 
-    	console.log(newStr);
+    	//console.log(newStr);
     }
 
 	//console.log(newArray);
@@ -225,6 +228,8 @@ function searchContact(contacts, searchTerm) {
      
    }
    */
-
-
 }
+ module.exports.addContact = addContact;
+ module.exports.getContacts = getContacts;
+ module.exports.searchContact = searchContact;
+
