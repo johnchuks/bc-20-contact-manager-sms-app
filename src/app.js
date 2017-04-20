@@ -9,20 +9,20 @@ vorpal
 
    .command('add', 'adds contact')
    .option('-n --name <name>', 'Add full name')
-   .option('-p <phonenumber>', 'Add phone number')
+   .option('-p --num <phoneNumber>', 'Add phone number e.g. 08076******')
    .action(function(args, callback) {
      
-   	  var name = args.options.name;
-   	  var fullname = name.split('');
+   	  var new_name = args.options.name;
+   	  var fullname = new_name.split(' ');
       var firstname = fullname[0];
       var lastname = fullname[1];
-      var phoneNumber = args.options.phonenumber;
+      var num = args.options.num;
 
-      console.log(app);
+      this.log(args);
 
-   	  if (fullname.length > 1) {
+       	  if (fullname.length > 1) {
 
-        if(app.addContact(firstname, lastname, phoneNumber)=== true) {
+        if(app.addContact(firstname, lastname, num)=== true) {
 
           this.log('contact added successfully');
         }
@@ -33,19 +33,23 @@ vorpal
       callback();
    });
 
-//vorpal 
+vorpal 
   
-  //.command('search <name> Enter search property')
-  //.action()
+  .command('search', 'Enter search property')
+    //.option('-n --name <name>', 'Add search term')
+    .action(function(args, callback) {
+
+      function retrieveData() {
+         app.getData().then(function(result) {
+
+          console.log(result);
+       });
+     }
+      retrieveData();
 
 
-   //.option('-n', '<name>');
-
-   //.option('-p', '<phonenumber>');
-
-  // .command('search', 'searches through the contact list for a contact');
-
-   //.command('text', 'sends text to a number');
+    callback();
+    });
 
 
 vorpal
