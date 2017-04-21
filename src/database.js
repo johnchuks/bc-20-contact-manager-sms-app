@@ -44,8 +44,8 @@ function addContact(firstName, lastName, mobile)  {
 
  }
 
-// search for contact using the first name and last name
 
+// Intiailize firebase reference
 var refName = firebaseRef.ref('/contacts/');
 
 var keys;
@@ -58,6 +58,7 @@ var searchString;
 
 var search;
 
+// Get contact list from the database and export the data
 function getData() {
  
 return new Promise(function(resolve, reject){
@@ -85,6 +86,7 @@ var user;
 
 var newString; 
 
+//Sort through the keys from the database and return an containing individual objects.
 function getContacts(keys) {
 
 	contactList = [];
@@ -121,7 +123,7 @@ function getContacts(keys) {
 	return contactList;
 }
 
-
+/*
 function searchContact(contacts, searchTerm) {
 
     var newArray =[];
@@ -136,8 +138,8 @@ function searchContact(contacts, searchTerm) {
     
   return newArray;
 }
-
+*/
  module.exports.addContact = addContact;
  module.exports.getData = getData;
- module.exports.searchContact = searchContact;
+ //module.exports.searchContact = searchContact;
 

@@ -1,0 +1,31 @@
+{
+  "name": "contactapp",
+  "version": "1.0.0",
+  "description": "Creates and stores contact list",
+  "main": "module.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnchuks/bc-20-contact-manager-sms-app.git"
+  },
+  "keywords": [
+    "contact",
+    "cli"
+  ],
+  "author": "Johnbosco Ohia",
+  "license": "ISC",
+  "bin": {
+    "contact": "./module.js"
+  },
+  "bugs": {
+    "url": "https://github.com/johnchuks/bc-20-contact-manager-sms-app/issues"
+  },
+  "homepage": "https://github.com/johnchuks/bc-20-contact-manager-sms-app#readme",
+  "dependencies": {
+    "firebase": "^3.8.0",
+    "jusibe": "^0.2.0",
+    "vorpal": "^1.12.0"
+  }
+}
