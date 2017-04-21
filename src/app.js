@@ -79,6 +79,7 @@ vorpal
           if (result[i].last === searchTerm) {
 
             fetchUsers.push(result[i]);
+            
           }
 
         }
@@ -88,7 +89,10 @@ vorpal
         if (fetchUsers.length === 1) {
 
           number = fetchUsers[0].mobileNumber;
-          console.log('Name: ' + fetchUsers[0].first + ' ' + fetchUsers[0].last + ' Mobile number: ' + number + '\n\n');
+
+          
+       
+        console.log('Name: ' +fetchUsers[0].first+ ' '+fetchUsers[0].last+ ' Mobile number:'+number+ '\n\n');
         } else if (fetchUsers.length > 1) {
 
           var key, last, first;
@@ -102,6 +106,8 @@ vorpal
             last = key.last;
 
             first = key.first;
+
+
 
             if (ifTrue === true) {
 
@@ -118,28 +124,29 @@ vorpal
           }
           console.log(userPrompt);
 
-          console.log('Use `fetch <name>` to select from the above contact list \n');
+          console.log('\n\nUse `fetch <name>` to select from the above contact list \n');
          
          // call the command if the last name is more than one in the database
           vorpal
 
-            .command('<name>')
-            .option('name', 'enter first name')
+            .command('fetch <name>')
+            .option('newSearch', 'enter first name')
             .action(function(args, callback) {
               firstName = args.name;
               var tempDatabase = [];
               var newNumber;
 
               for (var k = 0; k < fetchUsers.length; k++) {
-                var key = fetchUsers[k];
+
                 if (fetchUsers[k].first === firstName) {
                   tempDatabase.push(fetchUsers[k]);
                 }
 
               }
+              
+               number = tempDatabase[0].mobileNumber;
 
-              number = tempDatabase[0].mobileNumber;
-              console.log('Name:' + tempDatabase[0].first + ' ' + tempDatabase[0].last + ' Mobile Number: ' + number + '\n\n');
+              console.log('Name:' +tempDatabase[0].first+ ' ' +tempDatabase[0].last+ 'Mobile Number: '+number+ '\n\n');
               callback();
 
             });

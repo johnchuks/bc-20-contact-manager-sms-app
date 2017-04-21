@@ -123,23 +123,8 @@ function getContacts(keys) {
 	return contactList;
 }
 
-/*
-function searchContact(contacts, searchTerm) {
 
-    var newArray =[];
-
-     searchTerm ='andela';
-
-    for (var i = 0; i < contacts.length; i++) {
-      if (contacts[i].last === searchTerm) {
-        newArray.push(contacts[i]);
-      }
-    }
-    
-  return newArray;
-}
-*/
  module.exports.addContact = addContact;
  module.exports.getData = getData;
- //module.exports.searchContact = searchContact;
+ 
 
