@@ -3,6 +3,9 @@
 
 var vorpal = require('vorpal')();
 
+console.log('WELCOME TO CONTACT MANAGER\n\n');
+console.log('To add or search contacts enter `--help` for more information');
+
 var app = require('./database.js');
 
 vorpal 
@@ -137,7 +140,7 @@ vorpal
 
 
 vorpal
-   .delimiter('$')
+   .delimiter('app$')
    .show();
 
 
