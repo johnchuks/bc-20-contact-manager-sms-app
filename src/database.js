@@ -40,8 +40,6 @@ var ref = firebaseRef.ref().child('contacts');
 function addContact(firstName, lastName, mobile)  {
 
   var contact;
-
-   
   
      // if (number.length === 13) { // check for the length of phone number
 
@@ -66,16 +64,8 @@ function addContact(firstName, lastName, mobile)  {
 
  }
 
-//addContact('James', 'khan', 2348076868926);
-
-//var newContact = new addContact();
-
-
-
 // search for contact using the first name and last name
 
-
-//var refName = firebaseRef.ref('first');
 var refName = firebaseRef.ref('/contacts/');
 
 var keys;
@@ -83,6 +73,10 @@ var keys;
 var obj;
 
 var contactString;
+
+var searchString;
+
+var search;
 
 function getData() {
  
@@ -94,11 +88,13 @@ return new Promise(function(resolve, reject){
 
           keys = Object.keys(obj);
 
-         contactString = getContacts(keys)
-       
+         contactString = getContacts(keys);
 
-      resolve(contactString);
+        // search = searchContact(contactString);
 
+        // console.log(search);
+
+          resolve(contactString);
 
  });
   });
@@ -107,13 +103,11 @@ return new Promise(function(resolve, reject){
 
 getData();
 
-//console.log();
-//console.log(getData());
-
 var contactList;
 
 var user;
 
+var newString; 
 
 function getContacts(keys) {
 
@@ -148,68 +142,25 @@ function getContacts(keys) {
     		}
 
     	}
-	//console.log(contactList);
-
-	searchContact(contactList);
-
 	return contactList;
 }
+
 
 function searchContact(contacts, searchTerm) {
 
     var newArray =[];
 
-    searchTerm =' ';
+     searchTerm ='andela';
+
     for (var i = 0; i < contacts.length; i++) {
-    	if (contacts[i].last === searchTerm) {
-    		newArray.push(contacts[i]);
-    	}
-    	 else if (contacts[0].last.indexOf(searchTerm) === -1) {
-    	 	//console.log('No search results');
-    	 }
+      if (contacts[i].last === searchTerm) {
+        newArray.push(contacts[i]);
+      }
     }
-
-    var count = 1;
-   //console.log(newArray);
-
-    var newStr = 'which ';
-    var  ifTrue = true;
-
-
-    if (newArray.length > 1) { 
-
-       for (var j = 0; j < newArray.length; j++) {
-
-        var key = newArray[j];
-
-    		 var last = key.last;
-
-    	   var first = key.first;
-
-    	   if (ifTrue === true) {
-
-    	   	    newStr += last+ '? [' +(count++)+ ']'+ first+ '\t';
-    	   	    
-    	       ifTrue = false;
-
-    	   }
-    	   
-    	   else {
-
-    	   	 newStr += '['+(count++)+']'+ first;
-
-    	   }
-    	   
-    	}
-
-    	//console.log(newStr);
-    }
-
-	
-
-
-
+    
+  return newArray;
 }
+
  module.exports.addContact = addContact;
  module.exports.getData = getData;
  module.exports.searchContact = searchContact;
