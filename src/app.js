@@ -1,203 +1,189 @@
-
 'use strict'
 
 var vorpal = require('vorpal')();
 
 var Jusibe = require('jusibe');
-var jusibe = new Jusibe('b7917e41ca7e2bd0e423bf7a607ac89c','2a2af2d2baad0e707294600ab2bd9331')
+var jusibe = new Jusibe('b7917e41ca7e2bd0e423bf7a607ac89c', '2a2af2d2baad0e707294600ab2bd9331')
 
 console.log('WELCOME TO CONTACT MANAGER\n\n');
 console.log('To add contacts to CONTACT MANAGER enter `add --help` and enter `search --help` for more information on how to do a contact search');
 
 var app = require('./database.js');
 
-vorpal 
+vorpal
 
-   .command('add', 'adds contact')
-   .option('-n --name <name>', 'Add full name')
-   .option('-p --num <phoneNumber>', 'Add phone number e.g. 08076******')
-   .action(function(args, callback) {
-     
-   	  var new_name = args.options.name;
-   	  var fullname = new_name.split(' ');
-      var first_name = fullname[0];
-      var last_name = fullname[1];
-      var num = args.options.num.toString();
-      var newArr;
-      newArr = (''+num).split('');
-      newArr.unshift(0);
+  .command('add', 'adds contact')
+  .option('-n --name <name>', 'Add full name')
+  .option('-p --num <phoneNumber>', 'Add phone number e.g. 08076******')
+  .action(function(args, callback) {
 
-      var newNum = newArr.join('');
+    var new_name = args.options.name;
+    var fullName = new_name.split(' ');
+    var first_name = fullName[0];
+    var last_name = fullName[1];
+    var num = args.options.num.toString();
+    var splitNumber;
+    splitNumber = ('' + num).split('');
+    splitNumber.unshift(0);
 
-      function checkDatabase() {
+    var newNum = splitNumber.join('');
 
-        app.getData().then(function(data){
+    function checkDatabase() {
 
+      app.getData().then(function(data) {
 
-          console.log(data);
+        for (var i = 0; i < data.length; i++) {
 
-          for (var i =0; i < data.length; i++) {
+          if (data[i].first === first_name && data[i].last === last_name) {
 
-             if (data[i].first === first_name && data[i].last === last_name) {
+            console.log('The contact already exist');
+            break;
+          } else {
 
-              console.log('The contact already exist');
-              break;
-             }
-             else {
+            app.addContact(first_name, last_name, newNum);
 
-                 app.addContact(first_name, last_name, newNum); 
+            console.log('contact added successfully');
+            break;
+          }
 
-                         console.log('contact added successfully');
-                  break;
-                 }
-             
-               } 
-       });
+        }
+      });
     }
-    checkDatabase(); 
-       	 
-      callback();
-   });
+    checkDatabase();
 
-vorpal 
-  
+    callback();
+  });
+
+vorpal
+
   .command('search <name>', 'Enter search property')
-    .option('searchName', 'Add search term')
-    //.option('--firstName <name>', 'Search for contact with first name')
-    .action(function(args, callback) {
+  .option('searchName', 'Add search term')
+  .action(function(args, callback) {
 
-      function retrieveData() {
+    function retrieveData() { // promise function retrieves data from the database
 
-        app.getData().then(function(result) {
+      app.getData().then(function(result) { // call the get data function 
 
-          var searchTerm = args.name;
+        var searchTerm = args.name;
 
-          var newArray =[];
+        var fetchUsers = [];
 
-          var number ;
+        var number;
 
-          var firstName;
+        var firstName;
 
-          console.log(args);
+        // compare the data in the database with searchTerm
 
-          //console.log(result);
-
-       for (var i = 0; i < result.length; i++) {
+        for (var i = 0; i < result.length; i++) { 
 
           if (result[i].last === searchTerm) {
 
-             newArray.push(result[i]);
-      }
-      
-    }
-    var count = 1;   
-    var newStr = 'Which ';
-      var  ifTrue = true;
-      if (newArray.length === 1) {
+            fetchUsers.push(result[i]);
+          }
 
-      number = newArray[0].mobileNumber;
-      console.log('Name: '+newArray[0].first+ ' '+newArray[0].last+ ' Mobile number: '+number+ '\n\n');
-    }
-    else if (newArray.length > 1) {
+        }
+        var count = 1;
+        var userPrompt = 'Which ';
+        var ifTrue = true;
+        if (fetchUsers.length === 1) {
 
-      var key, last, first;
+          number = fetchUsers[0].mobileNumber;
+          console.log('Name: ' + fetchUsers[0].first + ' ' + fetchUsers[0].last + ' Mobile number: ' + number + '\n\n');
+        } else if (fetchUsers.length > 1) {
 
-       for (var j = 0; j < newArray.length; j++) {
+          var key, last, first;
 
-          key = newArray[j];
+          // Get the first and last names of the fetched users
 
-          last = key.last;
+          for (var j = 0; j < fetchUsers.length; j++) {
 
-          first = key.first;
+            key = fetchUsers[j];
 
-         if (ifTrue === true) {
+            last = key.last;
 
-                newStr += last+ '? [' +(count++)+ '] '+ first+ ' ';
-              
-             ifTrue = false;
+            first = key.first;
 
-         }
+            if (ifTrue === true) {
+
+              userPrompt += last + '? [' + (count++) + '] ' + first + ' ';
+
+              ifTrue = false;
+
+            } else {
+
+              userPrompt += '[' + (count++) + '] ' + first + ' ';
+
+            }
+
+          }
+          console.log(userPrompt);
+
+          console.log('Use `fetch <name>` to select from the above contact list \n');
          
-         else {
+         // call the command if the last name is more than one in the database
+          vorpal
 
-           newStr += '['+(count++)+'] '+ first+ ' ';
+            .command('<name>')
+            .option('name', 'enter first name')
+            .action(function(args, callback) {
+              firstName = args.name;
+              var tempDatabase = [];
+              var newNumber;
 
+              for (var k = 0; k < fetchUsers.length; k++) {
+                var key = fetchUsers[k];
+                if (fetchUsers[k].first === firstName) {
+                  tempDatabase.push(fetchUsers[k]);
+                }
 
-         }
-        
-  }
-    console.log(newStr);
+              }
 
-    console.log('Use `fetch <name>` to select from the above contact list \n');
+              number = tempDatabase[0].mobileNumber;
+              console.log('Name:' + tempDatabase[0].first + ' ' + tempDatabase[0].last + ' Mobile Number: ' + number + '\n\n');
+              callback();
 
-  vorpal
+            });
 
-    .command('fetch <name>')
-    .option('name', 'enter first name')
-    .action(function (args, callback){
-      firstName = args.name;
-      var tempArr = [];
-      var newNumber;
+        }
 
-      for (var k = 0; k < newArray.length; k++) {
-        var key = newArray[k];
-         if (newArray[k].first === firstName) {
-          tempArr.push(newArray[k]);      
-      }
+        // send a text message to the search user using jusbile API
 
-      }
+        vorpal
+          .command('text <name>', ' Send SMS text to contact')
+          .option('-m --txtsms <message>', 'Send an SMS message')
+          .action(function(args, callback) {
 
-      number = tempArr[0].mobileNumber;
-      console.log('Name:'+tempArr[0].first+' '+tempArr[0].last+ ' Mobile Number: '+number+ '\n\n');
-      callback();
+            var textMessage = args.options.txtsms;
 
+            var payLoad = {
+
+              to: number,
+              from: 'Johnbosco',
+              message: textMessage
+
+            };
+            console.log(args);
+
+            jusibe.sendSMS(payLoad, function(err, res) {
+
+              if (res.statusCode === 200)
+
+                console.log(res.body);
+              else
+                console.log(err);
+            });
+
+            callback();
+          });
+
+      });
+
+    }
+    retrieveData();
+
+    callback();
   });
-
-  }
-
-  vorpal
-  .command('text <name>', ' Send SMS text to contact')
-  .option('-m --txtsms <message>', 'Send an SMS message')
-  .action(function(args, callback){
-
-    var textMessage = args.name;
-
-    var payload = {
-
-      to:number,
-      from:'Johnbosco',
-      message :textMessage
-
-    };
-
-    jusibe.sendSMS(payload, function(err,res){
-
-      if(res.statusCode === 200) 
-
-        console.log(res.body);
-      else 
-        console.log(err);
-    });
-
-
-
-  callback();
-  });
-  
- });
-
-  }    
-  retrieveData();
-
-  callback();
-  });
-
-
-
-
 
 vorpal
-   .delimiter('app$')
-   .show();
-
-
+  .delimiter('app$')
+  .show();

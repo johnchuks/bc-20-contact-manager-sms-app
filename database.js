@@ -1,14 +1,17 @@
+
+
+
 // Import Admin SDK
 var firebase = require("firebase");
 
 var config = {
 
-	apiKey: "AIzaSyAIGwC2HCx9cnTHWW_EJxxy9L1qvM3Ub34",
-    authDomain: "contact-manager-application.firebaseapp.com",
-    databaseURL: "https://contact-manager-application.firebaseio.com",
-    projectId: "contact-manager-application",
-    storageBucket: "contact-manager-application.appspot.com",
-    messagingSenderId: "1056217513705"
+	apiKey: "AIzaSyDjkHwlxEhXgZDEOWsAJ3-cAYiuNnQbcU4",
+    authDomain: "project-66bb8.firebaseapp.com",
+    databaseURL: "https://project-66bb8.firebaseio.com",
+    projectId: "project-66bb8",
+    storageBucket: "project-66bb8.appspot.com",
+    messagingSenderId: "111694782091"
 }
      
 firebase.initializeApp(config);
@@ -17,7 +20,7 @@ firebase.initializeApp(config);
 
 var firebaseRef = firebase.database();
 
-var ref = firebaseRef.ref();
+var ref = firebaseRef.ref().child('users');
 
 
 // Add contact to the contact list
@@ -52,16 +55,12 @@ function addContact(firstName, lastName, mobileNumber)  {
  }
 //addContact('James', 'khan', 2348076868926);
 
-var newContact = new addContact();
-
-
-
 // search for contact using the first name and last name
 
 
 //var refName = firebaseRef.ref('first');
 
-var refName = firebaseRef.ref();
+var refName = firebaseRef.ref('/contacts/');
 
 var keys;
 
@@ -99,7 +98,7 @@ function getContacts(keys) {
 
 	};
 
-	for (i = 0; i < keys.length; i++) {
+	for (var i = 0; i < keys.length; i++) {
 
 		var k = keys[i];
 
@@ -128,17 +127,17 @@ function getContacts(keys) {
 
 }
 
-function searchContact(contacts, searchTerm) {
+function searchContact(contacts) {
 
     var newArray =[];
 
-    searchTerm ='Andela';
+   var searchTerm ='Andela';
 
-    for (i = 0; i < contacts.length; i++) {
+    for (var i = 0; i < contacts.length; i++) {
 
     	if (contacts[i].last === searchTerm) {
 
-    		newArray.push(contacts[i]);
+    		return newArray.push(contacts[i]);
 
 
     	}
@@ -228,3 +227,5 @@ function searchContact(contacts, searchTerm) {
 
 
 }
+
+//module.exports.addContact= addContact; 
