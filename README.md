@@ -1,7 +1,7 @@
 <h1>Contact Manager + SMS Application</h1>
 The contact manager application adds and manages your contact information. The application also has the capability to send text message to any user in the contact list.
 
-<h2>#Getting Started</h2>
+<h2>Getting Started</h2>
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 <h4>Installing</h4>
