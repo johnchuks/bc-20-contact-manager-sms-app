@@ -14,7 +14,7 @@ To add a contact to your contact directory type ``` add -n <name> -p <phone numb
 
 To search for a contact in your contact directory type ``` search <name> ```
 
-To send an SMS text to a contact, the said contact has to be searched using the search command. After searching use ``` text <name> -m <message> ``` to send a message to your desired contact.
+To send an SMS to a contact, the said contact has to be searched using the search command. After searching use ``` text <name> -m <message> ``` to send a message to your desired contact.
 
 <h2>Author</h2> 
 <ul>
