@@ -10,9 +10,9 @@ Clone the project to your local machine and run ``` npm install --save ``` to sa
 <h4>Steps to using the Application</h4>
 To start the application go to the local directory of the project in your command window and type  ``` node app.js ``` to begin.
 
-To add a contact to your contact list type ``` add -n <name> -p <phone number> ```
+To add a contact to your contact directory type ``` add -n <name> -p <phone number> ```
 
-To search for a contact in your contact list type ``` search <name> ```
+To search for a contact in your contact directory type ``` search <name> ```
 
 To send an SMS text to a contact, the said contact has to be searched using the search command. After searching use ``` text <name> -m <message> ``` to send a message to your desired contact.
 
